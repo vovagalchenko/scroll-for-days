@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		80B4E96618B2868000EF7BEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E96518B2868000EF7BEF /* Foundation.framework */; };
+		80B4E97418B2868100EF7BEF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E97318B2868100EF7BEF /* XCTest.framework */; };
+		80B4E97518B2868100EF7BEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E96518B2868000EF7BEF /* Foundation.framework */; };
+		80B4E97718B2868100EF7BEF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E97618B2868100EF7BEF /* UIKit.framework */; };
+		80B4E97A18B2868100EF7BEF /* libInfiniteScroll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E96218B2868000EF7BEF /* libInfiniteScroll.a */; };
+		80B4E98018B2868100EF7BEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 80B4E97E18B2868100EF7BEF /* InfoPlist.strings */; };
+		80B4E98218B2868100EF7BEF /* InfiniteScrollTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B4E98118B2868100EF7BEF /* InfiniteScrollTests.m */; };
+		80B4E99318B286BB00EF7BEF /* INFNetworkImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B4E98C18B286BB00EF7BEF /* INFNetworkImage.m */; };
+		80B4E99418B286BB00EF7BEF /* INFNetworkImageScrollViewTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B4E98E18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.m */; };
+		80B4E99518B286BB00EF7BEF /* INFScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B4E99018B286BB00EF7BEF /* INFScrollView.m */; };
+		80B4E99618B286BB00EF7BEF /* INFScrollViewTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B4E99218B286BB00EF7BEF /* INFScrollViewTile.m */; };
+		80B4E99818B2870200EF7BEF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E99718B2870200EF7BEF /* UIKit.framework */; };
+		80B4E9F218B28BFD00EF7BEF /* INFNetworkImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80B4E98B18B286BB00EF7BEF /* INFNetworkImage.h */; };
+		80B4E9F318B28BFD00EF7BEF /* INFNetworkImageScrollViewTile.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80B4E98D18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.h */; };
+		80B4E9F418B28BFD00EF7BEF /* INFScrollView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80B4E98F18B286BB00EF7BEF /* INFScrollView.h */; };
+		80B4E9F518B28BFD00EF7BEF /* INFScrollViewTile.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80B4E99118B286BB00EF7BEF /* INFScrollViewTile.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		80B4E97818B2868100EF7BEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 80B4E95A18B2868000EF7BEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80B4E96118B2868000EF7BEF;
+			remoteInfo = InfiniteScroll;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		80B4E96018B2868000EF7BEF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				80B4E9F218B28BFD00EF7BEF /* INFNetworkImage.h in CopyFiles */,
+				80B4E9F318B28BFD00EF7BEF /* INFNetworkImageScrollViewTile.h in CopyFiles */,
+				80B4E9F418B28BFD00EF7BEF /* INFScrollView.h in CopyFiles */,
+				80B4E9F518B28BFD00EF7BEF /* INFScrollViewTile.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		80B4E96218B2868000EF7BEF /* libInfiniteScroll.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libInfiniteScroll.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		80B4E96518B2868000EF7BEF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		80B4E96918B2868000EF7BEF /* InfiniteScroll-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InfiniteScroll-Prefix.pch"; sourceTree = "<group>"; };
+		80B4E97218B2868100EF7BEF /* InfiniteScrollTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InfiniteScrollTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80B4E97318B2868100EF7BEF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		80B4E97618B2868100EF7BEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		80B4E97D18B2868100EF7BEF /* InfiniteScrollTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "InfiniteScrollTests-Info.plist"; sourceTree = "<group>"; };
+		80B4E97F18B2868100EF7BEF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		80B4E98118B2868100EF7BEF /* InfiniteScrollTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfiniteScrollTests.m; sourceTree = "<group>"; };
+		80B4E98B18B286BB00EF7BEF /* INFNetworkImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFNetworkImage.h; sourceTree = "<group>"; };
+		80B4E98C18B286BB00EF7BEF /* INFNetworkImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFNetworkImage.m; sourceTree = "<group>"; };
+		80B4E98D18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFNetworkImageScrollViewTile.h; sourceTree = "<group>"; };
+		80B4E98E18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFNetworkImageScrollViewTile.m; sourceTree = "<group>"; };
+		80B4E98F18B286BB00EF7BEF /* INFScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFScrollView.h; sourceTree = "<group>"; };
+		80B4E99018B286BB00EF7BEF /* INFScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFScrollView.m; sourceTree = "<group>"; };
+		80B4E99118B286BB00EF7BEF /* INFScrollViewTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFScrollViewTile.h; sourceTree = "<group>"; };
+		80B4E99218B286BB00EF7BEF /* INFScrollViewTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFScrollViewTile.m; sourceTree = "<group>"; };
+		80B4E99718B2870200EF7BEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		80B4E95F18B2868000EF7BEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80B4E99818B2870200EF7BEF /* UIKit.framework in Frameworks */,
+				80B4E96618B2868000EF7BEF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80B4E96F18B2868100EF7BEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80B4E97418B2868100EF7BEF /* XCTest.framework in Frameworks */,
+				80B4E97718B2868100EF7BEF /* UIKit.framework in Frameworks */,
+				80B4E97A18B2868100EF7BEF /* libInfiniteScroll.a in Frameworks */,
+				80B4E97518B2868100EF7BEF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		80B4E95918B2868000EF7BEF = {
+			isa = PBXGroup;
+			children = (
+				80B4E96718B2868000EF7BEF /* InfiniteScroll */,
+				80B4E97B18B2868100EF7BEF /* InfiniteScrollTests */,
+				80B4E96418B2868000EF7BEF /* Frameworks */,
+				80B4E96318B2868000EF7BEF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		80B4E96318B2868000EF7BEF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				80B4E96218B2868000EF7BEF /* libInfiniteScroll.a */,
+				80B4E97218B2868100EF7BEF /* InfiniteScrollTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		80B4E96418B2868000EF7BEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				80B4E99718B2870200EF7BEF /* UIKit.framework */,
+				80B4E96518B2868000EF7BEF /* Foundation.framework */,
+				80B4E97318B2868100EF7BEF /* XCTest.framework */,
+				80B4E97618B2868100EF7BEF /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		80B4E96718B2868000EF7BEF /* InfiniteScroll */ = {
+			isa = PBXGroup;
+			children = (
+				80B4E98B18B286BB00EF7BEF /* INFNetworkImage.h */,
+				80B4E98C18B286BB00EF7BEF /* INFNetworkImage.m */,
+				80B4E98D18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.h */,
+				80B4E98E18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.m */,
+				80B4E98F18B286BB00EF7BEF /* INFScrollView.h */,
+				80B4E99018B286BB00EF7BEF /* INFScrollView.m */,
+				80B4E99118B286BB00EF7BEF /* INFScrollViewTile.h */,
+				80B4E99218B286BB00EF7BEF /* INFScrollViewTile.m */,
+				80B4E96818B2868000EF7BEF /* Supporting Files */,
+			);
+			path = InfiniteScroll;
+			sourceTree = "<group>";
+		};
+		80B4E96818B2868000EF7BEF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				80B4E96918B2868000EF7BEF /* InfiniteScroll-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		80B4E97B18B2868100EF7BEF /* InfiniteScrollTests */ = {
+			isa = PBXGroup;
+			children = (
+				80B4E98118B2868100EF7BEF /* InfiniteScrollTests.m */,
+				80B4E97C18B2868100EF7BEF /* Supporting Files */,
+			);
+			path = InfiniteScrollTests;
+			sourceTree = "<group>";
+		};
+		80B4E97C18B2868100EF7BEF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				80B4E97D18B2868100EF7BEF /* InfiniteScrollTests-Info.plist */,
+				80B4E97E18B2868100EF7BEF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		80B4E96118B2868000EF7BEF /* InfiniteScroll */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80B4E98518B2868100EF7BEF /* Build configuration list for PBXNativeTarget "InfiniteScroll" */;
+			buildPhases = (
+				80B4E95E18B2868000EF7BEF /* Sources */,
+				80B4E95F18B2868000EF7BEF /* Frameworks */,
+				80B4E96018B2868000EF7BEF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InfiniteScroll;
+			productName = InfiniteScroll;
+			productReference = 80B4E96218B2868000EF7BEF /* libInfiniteScroll.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		80B4E97118B2868100EF7BEF /* InfiniteScrollTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80B4E98818B2868100EF7BEF /* Build configuration list for PBXNativeTarget "InfiniteScrollTests" */;
+			buildPhases = (
+				80B4E96E18B2868100EF7BEF /* Sources */,
+				80B4E96F18B2868100EF7BEF /* Frameworks */,
+				80B4E97018B2868100EF7BEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				80B4E97918B2868100EF7BEF /* PBXTargetDependency */,
+			);
+			name = InfiniteScrollTests;
+			productName = InfiniteScrollTests;
+			productReference = 80B4E97218B2868100EF7BEF /* InfiniteScrollTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		80B4E95A18B2868000EF7BEF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Vova Galchenko";
+			};
+			buildConfigurationList = 80B4E95D18B2868000EF7BEF /* Build configuration list for PBXProject "InfiniteScroll" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 80B4E95918B2868000EF7BEF;
+			productRefGroup = 80B4E96318B2868000EF7BEF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				80B4E96118B2868000EF7BEF /* InfiniteScroll */,
+				80B4E97118B2868100EF7BEF /* InfiniteScrollTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		80B4E97018B2868100EF7BEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80B4E98018B2868100EF7BEF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		80B4E95E18B2868000EF7BEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80B4E99418B286BB00EF7BEF /* INFNetworkImageScrollViewTile.m in Sources */,
+				80B4E99618B286BB00EF7BEF /* INFScrollViewTile.m in Sources */,
+				80B4E99518B286BB00EF7BEF /* INFScrollView.m in Sources */,
+				80B4E99318B286BB00EF7BEF /* INFNetworkImage.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80B4E96E18B2868100EF7BEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80B4E98218B2868100EF7BEF /* InfiniteScrollTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		80B4E97918B2868100EF7BEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 80B4E96118B2868000EF7BEF /* InfiniteScroll */;
+			targetProxy = 80B4E97818B2868100EF7BEF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		80B4E97E18B2868100EF7BEF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				80B4E97F18B2868100EF7BEF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		80B4E98318B2868100EF7BEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		80B4E98418B2868100EF7BEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		80B4E98618B2868100EF7BEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/InfiniteScroll.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InfiniteScroll/InfiniteScroll-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		80B4E98718B2868100EF7BEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/InfiniteScroll.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InfiniteScroll/InfiniteScroll-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		80B4E98918B2868100EF7BEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InfiniteScroll/InfiniteScroll-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "InfiniteScrollTests/InfiniteScrollTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		80B4E98A18B2868100EF7BEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InfiniteScroll/InfiniteScroll-Prefix.pch";
+				INFOPLIST_FILE = "InfiniteScrollTests/InfiniteScrollTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		80B4E95D18B2868000EF7BEF /* Build configuration list for PBXProject "InfiniteScroll" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80B4E98318B2868100EF7BEF /* Debug */,
+				80B4E98418B2868100EF7BEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80B4E98518B2868100EF7BEF /* Build configuration list for PBXNativeTarget "InfiniteScroll" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80B4E98618B2868100EF7BEF /* Debug */,
+				80B4E98718B2868100EF7BEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80B4E98818B2868100EF7BEF /* Build configuration list for PBXNativeTarget "InfiniteScrollTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80B4E98918B2868100EF7BEF /* Debug */,
+				80B4E98A18B2868100EF7BEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 80B4E95A18B2868000EF7BEF /* Project object */;
+}

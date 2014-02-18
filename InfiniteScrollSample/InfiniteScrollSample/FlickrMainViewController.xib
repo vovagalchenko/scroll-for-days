@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FlickrMainViewController">
+            <connections>
+                <outlet property="infiniteScrollView" destination="108" id="124"/>
+                <outlet property="searchBar" destination="67" id="76"/>
+                <outlet property="searchButton" destination="15" id="43"/>
+                <outlet property="view" destination="6" id="7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="6">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="108" customClass="INFScrollView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <connections>
+                        <outlet property="infiniteScrollViewDelegate" destination="-1" id="123"/>
+                    </connections>
+                </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="15">
+                    <rect key="frame" x="276" y="4" width="40" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="61"/>
+                        <constraint firstAttribute="width" constant="40" id="62"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                    <state key="normal" image="search_icon">
+                        <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="searchButtonPressed:" destination="-1" eventType="touchUpInside" id="77"/>
+                    </connections>
+                </button>
+                <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67">
+                    <rect key="frame" x="0.0" y="-44" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="78"/>
+                    </connections>
+                </searchBar>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+            <constraints>
+                <constraint firstItem="67" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="68"/>
+                <constraint firstItem="67" firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="69"/>
+                <constraint firstItem="15" firstAttribute="top" secondItem="6" secondAttribute="top" constant="4" id="74"/>
+                <constraint firstAttribute="trailing" secondItem="15" secondAttribute="trailing" constant="4" id="79"/>
+                <constraint firstItem="108" firstAttribute="top" secondItem="6" secondAttribute="top" id="115"/>
+                <constraint firstItem="108" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="116"/>
+                <constraint firstItem="108" firstAttribute="top" secondItem="67" secondAttribute="bottom" id="117"/>
+                <constraint firstItem="108" firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="118"/>
+                <constraint firstItem="108" firstAttribute="bottom" secondItem="6" secondAttribute="bottom" id="119"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="search_icon" width="64" height="64"/>
+    </resources>
+</document>
