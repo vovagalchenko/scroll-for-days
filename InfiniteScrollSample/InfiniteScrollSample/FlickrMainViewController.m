@@ -59,7 +59,7 @@
 {
     if (self.images.count == 0)
         return;
-    NSUInteger photoIndex = abs(positionHash)%self.images.count;
+    NSUInteger photoIndex = abs((int)positionHash)%self.images.count;
     [(INFNetworkImageScrollViewTile *)tile fillTileWithNetworkImage:[self.images objectAtIndex:photoIndex]];
 }
 

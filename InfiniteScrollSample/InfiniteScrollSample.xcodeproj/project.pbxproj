@@ -54,7 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		806922F018B2E16300E0B7F5 /* noimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = noimage.jpg; path = ../../../../../../Desktop/noimage.jpg; sourceTree = "<group>"; };
+		806922F018B2E16300E0B7F5 /* noimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = noimage.jpg; path = InfiniteScrollSample/OtherAssets/noimage.jpg; sourceTree = SOURCE_ROOT; };
 		80B4E9A218B2880600EF7BEF /* InfiniteScrollSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniteScrollSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80B4E9A518B2880600EF7BEF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		80B4E9A718B2880600EF7BEF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };

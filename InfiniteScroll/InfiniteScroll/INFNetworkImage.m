@@ -17,7 +17,8 @@
 @property (nonatomic, readwrite, strong) NSMutableSet *imageConsumers;
 @property (nonatomic, readwrite, strong) NSURLConnection *imageDownloadConnection;
 @property (nonatomic, readwrite, assign) BOOL cachedOnHDD;
-@property (nonatomic, readwrite, assign, getter = isConnectionQueued) BOOL connectionQueued;
+@property (nonatomic, readwrite, strong) NSThread *connectionHandlingThread;
+@property (nonatomic, readwrite, assign) BOOL imageFetchCancelled;
 
 @end
 
@@ -31,10 +32,17 @@
 @synthesize image = _image;
 @synthesize imageFilePath = _imageFilePath;
 @synthesize cachedOnHDD = _cachedOnHDD;
-@synthesize connectionQueued = _connectionQueued;
+@synthesize connectionHandlingThread = _connectionHandlingThread;
 
 #define IMAGE_CACHE_SIZE        25
+#define NUM_IMAGE_FETCH_QUEUES  2
 static NSMutableDictionary *cachedPhotos;
+static dispatch_queue_t imageFetchQueues[NUM_IMAGE_FETCH_QUEUES];
+
+static inline void assertMainThread()
+{
+    NSCAssert([[NSThread currentThread] isMainThread], @"This code should be executed on main thread");
+}
 
 #pragma mark - Object Lifecycle
 
@@ -44,6 +52,10 @@ static NSMutableDictionary *cachedPhotos;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         cachedPhotos = [[NSMutableDictionary alloc] initWithCapacity:IMAGE_CACHE_SIZE];
+        for (int i = 0; i < NUM_IMAGE_FETCH_QUEUES; i++)
+        {
+            imageFetchQueues[i] = dispatch_queue_create("com.galchenko.INFNetworkImageFetchQueue", DISPATCH_QUEUE_SERIAL);
+        }
     });
     if (self = [super init])
     {
@@ -59,6 +71,7 @@ static NSMutableDictionary *cachedPhotos;
 
 - (void)fetchImageForImageConsumer:(id<ImageConsumer>)imageConsumer
 {
+    assertMainThread();
     if (self.image)
     {
         [imageConsumer consumeImage:self.image animated:NO];
@@ -82,43 +95,57 @@ static NSMutableDictionary *cachedPhotos;
         {
             self.receivedData = [NSMutableData data];
             [self.imageConsumers addObject:imageConsumer];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+            self.imageFetchCancelled = NO;
+            dispatch_async(imageFetchQueues[rand()%NUM_IMAGE_FETCH_QUEUES], ^
             {
-                if (!self.isConnectionQueued)
+                BOOL shouldExpectConnectionCallbacks = NO;
+                @synchronized(self)
                 {
-                    self.connectionQueued = YES;
-                    // According to the Time Profiler instrument, creating and scheduling a connection is kinda slow, so moving it to a background queue.
-                    self.imageDownloadConnection = [[NSURLConnection alloc] initWithRequest:[self urlRequest] delegate:self startImmediately:NO];
-                    [self.imageDownloadConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:UITrackingRunLoopMode];
-                    [self.imageDownloadConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-                    [self.imageDownloadConnection start];
-                    while(self.isConnectionQueued)
+                    if (!self.connectionHandlingThread && !self.imageFetchCancelled)
                     {
-                        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+                        self.connectionHandlingThread = [NSThread currentThread];
+                        // According to the Time Profiler instrument, creating and scheduling a connection is kinda slow, so moving it to a background queue.
+                        self.imageDownloadConnection = [[NSURLConnection alloc] initWithRequest:[[NSURLRequest alloc] initWithURL:self.imageURL]
+                                                                                       delegate:self
+                                                                               startImmediately:NO];
+                        [self.imageDownloadConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:UITrackingRunLoopMode];
+                        [self.imageDownloadConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+                        [self.imageDownloadConnection start];
+                        shouldExpectConnectionCallbacks = YES;
                     }
+                }
+                while(shouldExpectConnectionCallbacks && !self.imageFetchCancelled && self.connectionHandlingThread)
+                {
+                    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
                 }
             });
         }
     }
 }
 
+- (void)wakeThread {}
+
 - (void)unhookImageConsumer:(id<ImageConsumer>)imageConsumer
 {
+    assertMainThread();
     [self.imageConsumers removeObject:imageConsumer];
-    if (self.imageDownloadConnection && self.imageConsumers.count == 0)
+    
+    if (self.imageConsumers.count == 0)
     {
-        [self.imageDownloadConnection cancel];
-        self.imageDownloadConnection = nil;
-        self.connectionQueued = NO;
+        @synchronized(self)
+        {
+            [self.imageDownloadConnection cancel];
+            self.imageDownloadConnection = nil;
+            
+            self.imageFetchCancelled = YES;
+            NSThread *threadToWake = self.connectionHandlingThread;
+            self.connectionHandlingThread = nil;
+            [self performSelector:@selector(wakeThread) onThread:threadToWake withObject:nil waitUntilDone:NO];
+        }
     }
 }
 
 #pragma mark - URL Connection
-
-- (NSURLRequest *)urlRequest
-{
-    return [[NSURLRequest alloc] initWithURL:self.imageURL];
-}
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
@@ -135,7 +162,7 @@ static NSMutableDictionary *cachedPhotos;
     self.cachedOnHDD = [self.receivedData writeToFile:[self imageFilePath] atomically:YES];
     self.receivedData = nil;
     self.imageDownloadConnection = nil;
-    self.connectionQueued = NO;
+    self.connectionHandlingThread = nil;
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -147,7 +174,7 @@ static NSMutableDictionary *cachedPhotos;
     }
     [self.imageConsumers removeAllObjects];
     self.receivedData = nil;
-    self.connectionQueued = NO;
+    self.connectionHandlingThread = nil;
     self.imageDownloadConnection = nil;
 }
 

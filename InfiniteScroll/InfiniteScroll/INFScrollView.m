@@ -321,7 +321,7 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
     [self.tileContainer addSubview:initialView];
     NSMutableArray *tilesToSplit = [NSMutableArray arrayWithObject:initialView];
     int numVertSplits = 0, numHorizSplits = 0;
-    srand(time(NULL));
+    srand((unsigned int) time(NULL));
     while (tilesToSplit.count > 0)
     {
         int randomInt = rand();
@@ -377,7 +377,6 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
         }
         [self.tileContainer addSubview:tileToAdd];
     }
-    NSLog(@"TOTAL NUM TILES: %d", self.tileContainer.subviews.count);
 }
 
 - (void)addTile:(INFScrollViewTile *)tile
