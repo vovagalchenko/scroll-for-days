@@ -201,19 +201,11 @@ static inline CGSize sizeToFitInsideSize(CGSize sizeToScale, CGSize sizeToFitTo)
      {
          if (error)
          {
+             
              dispatch_async(dispatch_get_main_queue(), ^
                             {
                                 [AppDelegate stopActivityIndicator];
-                            //    [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to get search results from Flickr" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                                NSMutableArray *photos = [NSMutableArray array];
-                                for (int i = 0; i < 100; i++)
-                                {
-                                    [photos addObject:[[FlickrPhoto alloc] initWithFlickrID:[NSString stringWithFormat:@"%d", i]
-                                                                                     secret:@"secret"
-                                                                                       farm:@"farm"
-                                                                                     server:@"server"]];
-                                }
-                                [self reloadInfiniteScrollViewWithData:photos];
+                                [[[UIAlertView alloc] initWithTitle:@"Connection Failed" message:@"Unable to get search results from Flickr" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                             });
          }
          else
