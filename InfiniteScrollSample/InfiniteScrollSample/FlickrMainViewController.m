@@ -167,7 +167,7 @@ static inline CGSize sizeToFitInsideSize(CGSize sizeToScale, CGSize sizeToFitTo)
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [self dismissSearchBar];
-    [self performSearchWithString:[searchBar.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [self performSearchWithString:searchBar.text];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar

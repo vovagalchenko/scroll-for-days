@@ -80,14 +80,17 @@ static inline void assertMainThread()
     {
         if (self.cachedOnHDD)
         {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+            dispatch_async(imageFetchQueues[rand()%NUM_IMAGE_FETCH_QUEUES], ^
             {
                 NSString *filePath = [self imageFilePath];
                 UIImage *imageFromHD = [UIImage imageWithData:[NSData dataWithContentsOfFile:filePath] scale:[[UIScreen mainScreen] scale]];
                 dispatch_async(dispatch_get_main_queue(), ^
                 {
                     self.image = imageFromHD;
-                    [imageConsumer consumeImage:self.image animated:YES];
+                    if (!self.imageFetchCancelled)
+                    {
+                        [imageConsumer consumeImage:self.image animated:YES];
+                    }
                 });
             });
         }
@@ -140,7 +143,8 @@ static inline void assertMainThread()
             self.imageFetchCancelled = YES;
             NSThread *threadToWake = self.connectionHandlingThread;
             self.connectionHandlingThread = nil;
-            [self performSelector:@selector(wakeThread) onThread:threadToWake withObject:nil waitUntilDone:NO];
+            if (threadToWake != nil)
+                [self performSelector:@selector(wakeThread) onThread:threadToWake withObject:nil waitUntilDone:NO];
         }
     }
 }
