@@ -179,25 +179,29 @@ const unsigned short INFScrollVertically = 1 << 1;
         if (minimumVisibleX > subviewsMaxVisibleX && // the subview is to the left of the visible bounds
             subviewsMinVisibleX + tileAreaWidth < maximumVisibleX) // the subview would be in bounds if we moved it
         {
-            tileFrame = CGRectMake(tileFrame.origin.x + tileAreaWidth, tileFrame.origin.y, tileFrame.size.width, tileFrame.size.height);
+            NSUInteger numWidths = (NSUInteger)(maximumVisibleX - subviewsMinVisibleX)/tileAreaWidth;
+            tileFrame = CGRectMake(tileFrame.origin.x + numWidths*tileAreaWidth, tileFrame.origin.y, tileFrame.size.width, tileFrame.size.height);
         }
         else if (subviewsMinVisibleX > maximumVisibleX && // the subview is to the right of the visible bounds
                  subviewsMaxVisibleX - tileAreaWidth > minimumVisibleX) // the subview would be in bounds if we moved it
         {
-            tileFrame = CGRectMake(tileFrame.origin.x - tileAreaWidth, tileFrame.origin.y, tileFrame.size.width, tileFrame.size.height);
+            NSUInteger numWidths = (NSUInteger)(subviewsMaxVisibleX - minimumVisibleX)/tileAreaWidth;
+            tileFrame = CGRectMake(tileFrame.origin.x - numWidths*tileAreaWidth, tileFrame.origin.y, tileFrame.size.width, tileFrame.size.height);
         }
         
         CGFloat subviewsMaxVisibleY = CGRectGetMaxY(tileFrame);
         CGFloat subviewsMinVisibleY = CGRectGetMinY(tileFrame);
-        if (minimumVisibleY > subviewsMaxVisibleY && // the subview is on the bottom of the visible bounds
+        if (minimumVisibleY > subviewsMaxVisibleY && // the subview is on the top of the visible bounds
             subviewsMinVisibleY + tileAreaHeight < maximumVisibleY) // the subview would be in bounds if we moved it
         {
-            tileFrame = CGRectMake(tileFrame.origin.x, tileFrame.origin.y + tileAreaHeight, tileFrame.size.width, tileFrame.size.height);
+            NSUInteger numHeights = (NSUInteger)(maximumVisibleY - subviewsMinVisibleY)/tileAreaHeight;
+            tileFrame = CGRectMake(tileFrame.origin.x, tileFrame.origin.y + numHeights*tileAreaHeight, tileFrame.size.width, tileFrame.size.height);
         }
-        else if (subviewsMinVisibleY > maximumVisibleY && // the subview is on the top of the visible bounds
+        else if (subviewsMinVisibleY > maximumVisibleY && // the subview is on the bottom of the visible bounds
                  subviewsMaxVisibleY - tileAreaHeight > minimumVisibleY) // the subview would be in bounds if we moved it
         {
-            tileFrame = CGRectMake(tileFrame.origin.x, tileFrame.origin.y - tileAreaHeight, tileFrame.size.width, tileFrame.size.height);
+            NSUInteger numHeights = (NSUInteger)(subviewsMaxVisibleY - minimumVisibleY)/tileAreaHeight;
+            tileFrame = CGRectMake(tileFrame.origin.x, tileFrame.origin.y - numHeights*tileAreaHeight, tileFrame.size.width, tileFrame.size.height);
         }
         subview.frame = tileFrame;
 
