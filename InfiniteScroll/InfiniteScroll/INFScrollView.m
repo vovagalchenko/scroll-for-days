@@ -381,6 +381,7 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
         }
         [self.tileContainer addSubview:tileToAdd];
     }
+    self.contentOffset = CGPointMake((self.tileAreaSize.width - self.bounds.size.width)/2, (self.tileAreaSize.height - self.bounds.size.height)/2);
 }
 
 - (void)addTile:(INFScrollViewTile *)tile
