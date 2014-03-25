@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		803012A818DF856600C04CB1 /* INFLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 803012A718DF856600C04CB1 /* INFLayout.m */; };
+		803012AB18DF86FB00C04CB1 /* INFRandomSizeLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 803012AA18DF86FB00C04CB1 /* INFRandomSizeLayout.m */; };
+		803012AC18DF885500C04CB1 /* INFRandomSizeLayout.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 803012A918DF86FB00C04CB1 /* INFRandomSizeLayout.h */; };
+		803012AD18DF885500C04CB1 /* INFLayout.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 803012A618DF856600C04CB1 /* INFLayout.h */; };
+		803012B318DF8AC900C04CB1 /* INFSpaceRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = 803012B218DF8AC900C04CB1 /* INFSpaceRegion.m */; };
+		803012B618E01A4B00C04CB1 /* INFTilePlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 803012B518E01A4B00C04CB1 /* INFTilePlaceholder.m */; };
 		80B4E96618B2868000EF7BEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E96518B2868000EF7BEF /* Foundation.framework */; };
 		80B4E97418B2868100EF7BEF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E97318B2868100EF7BEF /* XCTest.framework */; };
 		80B4E97518B2868100EF7BEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B4E96518B2868000EF7BEF /* Foundation.framework */; };
@@ -42,6 +48,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				803012AC18DF885500C04CB1 /* INFRandomSizeLayout.h in CopyFiles */,
+				803012AD18DF885500C04CB1 /* INFLayout.h in CopyFiles */,
 				80B4E9F218B28BFD00EF7BEF /* INFNetworkImage.h in CopyFiles */,
 				80B4E9F318B28BFD00EF7BEF /* INFNetworkImageScrollViewTile.h in CopyFiles */,
 				80B4E9F418B28BFD00EF7BEF /* INFScrollView.h in CopyFiles */,
@@ -52,6 +60,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		803012A618DF856600C04CB1 /* INFLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFLayout.h; sourceTree = "<group>"; };
+		803012A718DF856600C04CB1 /* INFLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFLayout.m; sourceTree = "<group>"; };
+		803012A918DF86FB00C04CB1 /* INFRandomSizeLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFRandomSizeLayout.h; sourceTree = "<group>"; };
+		803012AA18DF86FB00C04CB1 /* INFRandomSizeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFRandomSizeLayout.m; sourceTree = "<group>"; };
+		803012B118DF8AC900C04CB1 /* INFSpaceRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFSpaceRegion.h; sourceTree = "<group>"; };
+		803012B218DF8AC900C04CB1 /* INFSpaceRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFSpaceRegion.m; sourceTree = "<group>"; };
+		803012B418E01A4B00C04CB1 /* INFTilePlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INFTilePlaceholder.h; sourceTree = "<group>"; };
+		803012B518E01A4B00C04CB1 /* INFTilePlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INFTilePlaceholder.m; sourceTree = "<group>"; };
 		80B4E96218B2868000EF7BEF /* libInfiniteScroll.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libInfiniteScroll.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		80B4E96518B2868000EF7BEF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		80B4E96918B2868000EF7BEF /* InfiniteScroll-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InfiniteScroll-Prefix.pch"; sourceTree = "<group>"; };
@@ -96,6 +112,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		803012AE18DF89E900C04CB1 /* Tile Layout */ = {
+			isa = PBXGroup;
+			children = (
+				803012B118DF8AC900C04CB1 /* INFSpaceRegion.h */,
+				803012B218DF8AC900C04CB1 /* INFSpaceRegion.m */,
+				803012A918DF86FB00C04CB1 /* INFRandomSizeLayout.h */,
+				803012AA18DF86FB00C04CB1 /* INFRandomSizeLayout.m */,
+				803012A618DF856600C04CB1 /* INFLayout.h */,
+				803012A718DF856600C04CB1 /* INFLayout.m */,
+				803012B418E01A4B00C04CB1 /* INFTilePlaceholder.h */,
+				803012B518E01A4B00C04CB1 /* INFTilePlaceholder.m */,
+			);
+			name = "Tile Layout";
+			sourceTree = "<group>";
+		};
 		80B4E95918B2868000EF7BEF = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +160,7 @@
 		80B4E96718B2868000EF7BEF /* InfiniteScroll */ = {
 			isa = PBXGroup;
 			children = (
+				803012AE18DF89E900C04CB1 /* Tile Layout */,
 				80B4E98B18B286BB00EF7BEF /* INFNetworkImage.h */,
 				80B4E98C18B286BB00EF7BEF /* INFNetworkImage.m */,
 				80B4E98D18B286BB00EF7BEF /* INFNetworkImageScrollViewTile.h */,
@@ -250,7 +282,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				80B4E99418B286BB00EF7BEF /* INFNetworkImageScrollViewTile.m in Sources */,
+				803012AB18DF86FB00C04CB1 /* INFRandomSizeLayout.m in Sources */,
+				803012B318DF8AC900C04CB1 /* INFSpaceRegion.m in Sources */,
+				803012A818DF856600C04CB1 /* INFLayout.m in Sources */,
 				80B4E99618B286BB00EF7BEF /* INFScrollViewTile.m in Sources */,
+				803012B618E01A4B00C04CB1 /* INFTilePlaceholder.m in Sources */,
 				80B4E99518B286BB00EF7BEF /* INFScrollView.m in Sources */,
 				80B4E99318B286BB00EF7BEF /* INFNetworkImage.m in Sources */,
 			);

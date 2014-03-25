@@ -55,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		806922F018B2E16300E0B7F5 /* noimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = noimage.jpg; path = InfiniteScrollSample/OtherAssets/noimage.jpg; sourceTree = SOURCE_ROOT; };
-		80B4E9A218B2880600EF7BEF /* InfiniteScrollSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniteScrollSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		80B4E9A218B2880600EF7BEF /* INFSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = INFSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80B4E9A518B2880600EF7BEF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		80B4E9A718B2880600EF7BEF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		80B4E9A918B2880600EF7BEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -123,7 +123,7 @@
 		80B4E9A318B2880600EF7BEF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				80B4E9A218B2880600EF7BEF /* InfiniteScrollSample.app */,
+				80B4E9A218B2880600EF7BEF /* INFSample.app */,
 				80B4E9BD18B2880600EF7BEF /* InfiniteScrollSampleTests.xctest */,
 			);
 			name = Products;
@@ -225,7 +225,7 @@
 			);
 			name = InfiniteScrollSample;
 			productName = InfiniteScrollSample;
-			productReference = 80B4E9A218B2880600EF7BEF /* InfiniteScrollSample.app */;
+			productReference = 80B4E9A218B2880600EF7BEF /* INFSample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		80B4E9BC18B2880600EF7BEF /* InfiniteScrollSampleTests */ = {
@@ -252,7 +252,7 @@
 		80B4E99A18B2880600EF7BEF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Vova Galchenko";
 				TargetAttributes = {
 					80B4E9A118B2880600EF7BEF = {
@@ -383,7 +383,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -422,7 +421,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -462,7 +460,7 @@
 				GCC_PREFIX_HEADER = "InfiniteScrollSample/InfiniteScrollSample-Prefix.pch";
 				INFOPLIST_FILE = "InfiniteScrollSample/InfiniteScrollSample-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = INFSample;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -478,7 +476,7 @@
 				GCC_PREFIX_HEADER = "InfiniteScrollSample/InfiniteScrollSample-Prefix.pch";
 				INFOPLIST_FILE = "InfiniteScrollSample/InfiniteScrollSample-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = INFSample;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -486,7 +484,6 @@
 		80B4E9D218B2880600EF7BEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/InfiniteScrollSample.app/InfiniteScrollSample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -509,7 +506,6 @@
 		80B4E9D318B2880600EF7BEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/InfiniteScrollSample.app/InfiniteScrollSample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

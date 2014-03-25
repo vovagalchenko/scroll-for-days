@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "INFLayout.h"
 
 extern const unsigned short INFScrollHorizontally;
 extern const unsigned short INFScrollVertically;
@@ -36,5 +37,6 @@ extern const unsigned short INFScrollVertically;
 
 @property (nonatomic, readwrite, assign) unsigned short scrollDirection;
 @property (nonatomic, readwrite, weak) IBOutlet id<INFScrollViewDelegate>infiniteScrollViewDelegate;
+@property (nonatomic, readonly, strong) IBOutlet INFLayout *layout;
 
 @end

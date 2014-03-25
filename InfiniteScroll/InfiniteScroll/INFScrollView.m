@@ -8,8 +8,6 @@
 
 #import "INFScrollView.h"
 #import "INFScrollViewTile.h"
-#import <QuartzCore/QuartzCore.h>
-#import <objc/runtime.h>
      
 #define MIN_DIMENSION                   100
 #define MAX_DIMENSION                   MIN_DIMENSION*2 + 200
@@ -23,6 +21,7 @@ const unsigned short INFScrollVertically = 1 << 1;
 @property (nonatomic, readwrite, strong) UIView *tileContainer;
 @property (nonatomic, readwrite, strong) NSMutableSet *visibleTiles;
 @property (nonatomic, readwrite, assign) CGSize tileAreaSize;
+@property (nonatomic, readwrite, strong) INFLayout *layout;
 
 @end
 
@@ -85,6 +84,7 @@ const unsigned short INFScrollVertically = 1 << 1;
     }
     else
     {
+        NSAssert(self.layout != nil, @"You must specify a layout for the INFScrollView to use.");
         [self doInitialTileSetup];
     }
 }
@@ -164,6 +164,7 @@ const unsigned short INFScrollVertically = 1 << 1;
     
     // Tile content within the visible bounds.
     CGRect visibleBounds = [self convertRect:[self bounds] toView:self.tileContainer];
+    [self.layout layoutTilesInContainer:self.tileContainer visibleFrame:visibleBounds];
     
     CGFloat minimumVisibleX = CGRectGetMinX(visibleBounds);
     CGFloat maximumVisibleX = CGRectGetMaxX(visibleBounds);
