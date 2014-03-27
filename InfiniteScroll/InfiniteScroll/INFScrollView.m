@@ -20,7 +20,6 @@ const unsigned short INFScrollVertically = 1 << 1;
 
 @property (nonatomic, readwrite, strong) UIView *tileContainer;
 @property (nonatomic, readwrite, strong) NSMutableSet *visibleTiles;
-@property (nonatomic, readwrite, assign) CGSize tileAreaSize;
 @property (nonatomic, readwrite, strong) INFLayout *layout;
 
 @end
@@ -85,7 +84,9 @@ const unsigned short INFScrollVertically = 1 << 1;
     else
     {
         NSAssert(self.layout != nil, @"You must specify a layout for the INFScrollView to use.");
-        [self doInitialTileSetup];
+        CGFloat maxDimension = MAX(self.bounds.size.width, self.bounds.size.height);
+        self.tileContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxDimension*2, maxDimension*2)];
+        [self addSubview:_tileContainer];
     }
 }
 
@@ -164,8 +165,11 @@ const unsigned short INFScrollVertically = 1 << 1;
     
     // Tile content within the visible bounds.
     CGRect visibleBounds = [self convertRect:[self bounds] toView:self.tileContainer];
-    [self.layout layoutTilesInContainer:self.tileContainer visibleFrame:visibleBounds];
+    [self.layout layoutTilesForInfiniteScrollView:self
+                                      inContainer:self.tileContainer
+                                     visibleFrame:visibleBounds];
     
+    /*
     CGFloat minimumVisibleX = CGRectGetMinX(visibleBounds);
     CGFloat maximumVisibleX = CGRectGetMaxX(visibleBounds);
     CGFloat minimumVisibleY = CGRectGetMinY(visibleBounds);
@@ -225,8 +229,10 @@ const unsigned short INFScrollVertically = 1 << 1;
                                                  atPositionHash:positionHashForTile(subview)];
         }
     }
+     */
 }
 
+/*
 - (void)updateVisibleTiles
 {
     CGRect visibleBounds = [self convertRect:[self bounds] toView:self.tileContainer];
@@ -252,18 +258,9 @@ const unsigned short INFScrollVertically = 1 << 1;
         }
     }
 }
+ */
 
-static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
-{
-    CGPoint origin = tile.frame.origin;
-    // Need to generate a unique hash for an x, y pair.
-    // idk... accumulating x and y and multiplying by a prime for good measure seems decent.
-    NSInteger hash = origin.x;
-    hash *= 29;
-    hash += origin.y;
-    return hash;
-}
-
+/*
 - (void)reloadData:(BOOL)relayTiles
 {
     if (relayTiles)
@@ -286,7 +283,6 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
             {
                 [tile removeFromSuperview];
             }
-            [self doInitialTileSetup];
             [self updateVisibleTiles];
             [UIView animateWithDuration:FADE_ANIMATION_DURATION
                              animations:^
@@ -307,14 +303,9 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
         [self updateVisibleTiles];
     }
 }
+*/
 
-- (INFScrollViewTile *)tileWithFrame:(CGRect)frame
-{
-    NSAssert([self.infiniteScrollViewDelegate respondsToSelector:@selector(infiniteScrollViewTileForInfiniteScrollView:)], @"Must have infiniteScrollViewDelegate to have an operational infiniteScrollView");
-    INFScrollViewTile *tile = [self.infiniteScrollViewDelegate infiniteScrollViewTileForInfiniteScrollView:self];
-    tile.frame = frame;
-    return tile;
-}
+/*
 
 - (void)doInitialTileSetup
 {
@@ -384,6 +375,7 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
     }
     self.contentOffset = CGPointMake((self.tileAreaSize.width - self.bounds.size.width)/2, (self.tileAreaSize.height - self.bounds.size.height)/2);
 }
+ */
 
 - (void)addTile:(INFScrollViewTile *)tile
 {

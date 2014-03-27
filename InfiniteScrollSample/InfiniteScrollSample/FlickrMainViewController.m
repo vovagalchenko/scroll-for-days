@@ -148,7 +148,7 @@ static inline CGSize sizeToFitInsideSize(CGSize sizeToScale, CGSize sizeToFitTo)
 {
     self.images = images;
     [self.infiniteScrollView setScrollEnabled:images.count];
-    [self.infiniteScrollView reloadData:NO];
+   // [self.infiniteScrollView reloadData:NO];
 }
 
 #pragma mark - Search

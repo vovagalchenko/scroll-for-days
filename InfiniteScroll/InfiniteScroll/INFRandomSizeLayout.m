@@ -8,6 +8,7 @@
 
 #import "INFRandomSizeLayout.h"
 #import "INFSpaceRegion.h"
+#import "INFScrollView.h"
 
 #define MIN_DIMENSION                   100
 #define MAX_DIMENSION                   MIN_DIMENSION*2 + 200
@@ -16,6 +17,7 @@
 @interface INFRandomSizeLayout()
 
 @property (nonatomic, readwrite, strong) NSArray *pattern;
+@property (nonatomic, readwrite, strong) NSMutableArray *tilePool;
 
 @end
 
@@ -29,6 +31,7 @@
         firstRegion.occupyingTile.rect = CGRectMake(0, 0, PATTERN_DIMENSION, PATTERN_DIMENSION);
         NSMutableArray *pattern = [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:firstRegion]];
         NSMutableArray *tilesToSplit = [NSMutableArray arrayWithObject:firstRegion.occupyingTile];
+        srand((unsigned int) time(NULL));
         while (tilesToSplit.count > 0)
         {
             int randomInt = rand();
@@ -38,13 +41,13 @@
             {
                 shouldSplitVertical = (randomInt%2);
             }
-            else if (tileToSplit.rect.size.width > MIN_DIMENSION*2)
-            {
-                shouldSplitVertical = NO;
-            }
             else if (tileToSplit.rect.size.height > MIN_DIMENSION*2)
             {
                 shouldSplitVertical = YES;
+            }
+            else if (tileToSplit.rect.size.width > MIN_DIMENSION*2)
+            {
+                shouldSplitVertical = NO;
             }
             else
             {
@@ -62,9 +65,8 @@
                 // Could turn this into a binary search if performance optimization is desired
                 for (NSMutableArray *column in pattern)
                 {
-                    if ([column[0] rect].origin.x > tileToSplit.rect.origin.x ||
-                        [column[0] rect].origin.x + [column[0] rect].size.width < tileToSplit.rect.origin.x + tileToSplit.rect.size.width)
-                        continue;
+                    BOOL columnNeedsNewOccupyingTile = ([column[0] rect].origin.x > tileToSplit.rect.origin.x ||
+                                                        [column[0] rect].origin.x + [column[0] rect].size.width < tileToSplit.rect.origin.x + tileToSplit.rect.size.width);
                     NSUInteger rowIndex = 0;
                     INFSpaceRegion *currentSpaceRegion = nil;
                     do
@@ -77,11 +79,13 @@
                             CGFloat newSplitRegionHeight = newSplittingTileHeight - (currentSpaceRegion.rect.origin.y - tileToSplit.rect.origin.y);
                             INFSpaceRegion *newSpaceRegion = [INFSpaceRegion spaceRegionWithRect:CGRectMake(currentSpaceRegion.rect.origin.x, currentSpaceRegion.rect.origin.y + newSplitRegionHeight,
                                                                                                             currentSpaceRegion.rect.size.width, currentSpaceRegion.rect.size.height - newSplitRegionHeight)];
+                            newSpaceRegion.occupyingTile = currentSpaceRegion.occupyingTile;
                             currentSpaceRegion.rect = CGRectMake(currentSpaceRegion.rect.origin.x, currentSpaceRegion.rect.origin.y,
                                                                  currentSpaceRegion.rect.size.width, newSplitRegionHeight);
                             [column insertObject:newSpaceRegion atIndex:rowIndex];
                         }
-                        else if (currentSpaceRegion.rect.origin.y + currentSpaceRegion.rect.size.height > tileToSplit.rect.origin.y + newSplittingTileHeight)
+                        else if (columnNeedsNewOccupyingTile &&
+                                 currentSpaceRegion.rect.origin.y + currentSpaceRegion.rect.size.height > tileToSplit.rect.origin.y + newSplittingTileHeight)
                         {
                             currentSpaceRegion.occupyingTile = newOccupyingTile;
                         }
@@ -134,6 +138,7 @@
             }
         }
         self.pattern = [NSArray arrayWithArray:pattern];
+        self.tilePool = [NSMutableArray arrayWithCapacity:pattern.count * [pattern[0] count]];
     }
     return self;
 }
@@ -199,15 +204,67 @@ static inline NSIndexPath *search(NSArray *pattern, CGPoint pointToFind)
     return [NSIndexPath indexPathForRow:rowIndex inSection:columnIndex];
 }
 
-- (void)layoutTilesInContainer:(UIView *)tilesContainer visibleFrame:(CGRect)visibleFrame
+static BOOL CGRectAreSame(CGRect rect1, CGRect rect2)
 {
+    return  rect1.origin.x == rect2.origin.x &&
+            rect1.origin.y == rect2.origin.y &&
+            rect1.size.width == rect2.size.width &&
+            rect1.size.height == rect2.size.height;
+}
+
+- (void)layoutTilesForInfiniteScrollView:(INFScrollView *)infiniteScrollView
+                             inContainer:(UIView *)tilesContainer
+                            visibleFrame:(CGRect)visibleFrame
+{
+    NSMutableArray *availableTiles = [NSMutableArray arrayWithCapacity:self.tilePool.count];
+    for (INFScrollViewTile *tile in self.tilePool)
+    {
+        if (!CGRectIntersectsRect(tile.frame, visibleFrame))
+        {
+            [availableTiles addObject:tile];
+            [infiniteScrollView.infiniteScrollViewDelegate infiniteScrollView:infiniteScrollView
+                                                              isDoneUsingTile:tile
+                                                               atPositionHash:positionHashForTile(tile)];
+        }
+    }
     CGPoint origin = CGPointMake(
                                  visibleFrame.origin.x - floor(visibleFrame.origin.x/PATTERN_DIMENSION)*PATTERN_DIMENSION,
                                  visibleFrame.origin.y - floor(visibleFrame.origin.y/PATTERN_DIMENSION)*PATTERN_DIMENSION
                                  );
-    NSLog(@"(%f, %f)", origin.x, origin.y);
     NSIndexPath *startRegionIndexPath = search(self.pattern, origin);
-    NSLog(@"%@", startRegionIndexPath);
+    CGFloat rightMostX = visibleFrame.origin.x + visibleFrame.size.width;
+    CGFloat bottomMostY = visibleFrame.origin.y + visibleFrame.size.height;
+    for (NSInteger column = startRegionIndexPath.section; [self.pattern[column][0] rect].origin.x <= rightMostX; column++)
+    {
+        for (NSInteger row = startRegionIndexPath.row; [self.pattern[column][row] rect].origin.y <= bottomMostY; row++)
+        {
+            INFSpaceRegion *spaceRegion = self.pattern[column][row];
+            if (!spaceRegion.occupyingTile.tile)
+            {
+                INFScrollViewTile *tile = nil;
+                if (availableTiles.count > 0)
+                {
+                    tile = [availableTiles lastObject];
+                }
+                else
+                {
+                    
+                    tile = [self createTileForInfiniteScrollView:infiniteScrollView withFrame:CGRectNull];
+                    [tilesContainer addSubview:tile];
+                }
+                spaceRegion.occupyingTile.tile = tile;
+            }
+            if (!CGRectAreSame(spaceRegion.occupyingTile.tile.frame, spaceRegion.occupyingTile.rect))
+            {
+                NSLog(@"%@", CGRectCreateDictionaryRepresentation(spaceRegion.occupyingTile.rect));
+                spaceRegion.occupyingTile.tile.frame = spaceRegion.occupyingTile.rect;
+                [infiniteScrollView.infiniteScrollViewDelegate infiniteScrollView:infiniteScrollView
+                                                   willUseInfiniteScrollViewTitle:spaceRegion.occupyingTile.tile
+                                                                   atPositionHash:positionHashForTile(spaceRegion.occupyingTile.tile)];
+            }
+            
+        }
+    }
 }
 
 @end
