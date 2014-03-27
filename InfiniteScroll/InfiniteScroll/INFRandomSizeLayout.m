@@ -75,7 +75,7 @@
                         {
                             // Need to split this region
                             CGFloat newSplitRegionHeight = newSplittingTileHeight - (currentSpaceRegion.rect.origin.y - tileToSplit.rect.origin.y);
-                            INFSpaceRegion *newSpaceRegion = [INFSpaceRegion spaceRegionWithRect:CGRectMake(currentSpaceRegion.rect.origin.x, currentSpaceRegion.rect.origin.y,
+                            INFSpaceRegion *newSpaceRegion = [INFSpaceRegion spaceRegionWithRect:CGRectMake(currentSpaceRegion.rect.origin.x, currentSpaceRegion.rect.origin.y + newSplitRegionHeight,
                                                                                                             currentSpaceRegion.rect.size.width, currentSpaceRegion.rect.size.height - newSplitRegionHeight)];
                             currentSpaceRegion.rect = CGRectMake(currentSpaceRegion.rect.origin.x, currentSpaceRegion.rect.origin.y,
                                                                  currentSpaceRegion.rect.size.width, newSplitRegionHeight);
@@ -92,7 +92,7 @@
             else
             {
                 CGFloat newSplittingTileWidth = MIN_DIMENSION + randomInt%((int)tileToSplit.rect.size.width - 2*MIN_DIMENSION);
-                CGFloat rightOfOldTile = tileToSplit.rect.origin.x + tileToSplit.rect.size.height;
+                CGFloat rightOfOldTile = tileToSplit.rect.origin.x + tileToSplit.rect.size.width;
                 tileToSplit.rect = CGRectMake(tileToSplit.rect.origin.x, tileToSplit.rect.origin.y,
                                               newSplittingTileWidth, tileToSplit.rect.size.height);
                 newOccupyingTile.rect = CGRectMake(tileToSplit.rect.origin.x + tileToSplit.rect.size.width, tileToSplit.rect.origin.y,
@@ -107,12 +107,12 @@
                         // Need to split this column
                         NSMutableArray *newColumn = [NSMutableArray arrayWithCapacity:column.count];
                         CGFloat newSplitRegionWidth = newSplittingTileWidth - ([column[0] rect].origin.x - tileToSplit.rect.origin.x);
-                        CGFloat newRegionWidth = rightOfOldTile - ([column[0] rect].origin.x + newSplitRegionWidth);
                         for (INFSpaceRegion *region in column)
                         {
+                            [newColumn addObject:[INFSpaceRegion spaceRegionWithRect:CGRectMake(region.rect.origin.x + newSplitRegionWidth, region.rect.origin.y, region.rect.size.width - newSplitRegionWidth, region.rect.size.height)]];
                             region.rect = CGRectMake(region.rect.origin.x, region.rect.origin.y, newSplitRegionWidth, region.rect.size.height);
-                            [newColumn addObject:[INFSpaceRegion spaceRegionWithRect:CGRectMake(region.rect.origin.x + newSplitRegionWidth, region.rect.origin.y, newRegionWidth, region.rect.size.height)]];
                         }
+                        [pattern insertObject:newColumn atIndex:i+1];
                     }
                     else if ([column[0] rect].origin.x + [column[0] rect].size.width > tileToSplit.rect.origin.x + newSplittingTileWidth)
                     {
@@ -133,13 +133,81 @@
                 [tilesToSplit addObject:newOccupyingTile];
             }
         }
+        self.pattern = [NSArray arrayWithArray:pattern];
     }
     return self;
 }
 
+static inline NSUInteger findX(NSArray *columns, CGFloat xToFind, NSUInteger startSearch, NSUInteger endSearch)
+{
+    if (startSearch == endSearch)
+    {
+        NSUInteger result = NSNotFound;
+        if ([columns[startSearch][0] compareToX:xToFind] == NSOrderedSame)
+            result = startSearch;
+        return result;
+    }
+    
+    NSUInteger midIndex = (startSearch + endSearch)/2 + 1;
+    NSComparisonResult comparisonOfRangeToX = [columns[midIndex][0] compareToX:xToFind];
+    if (comparisonOfRangeToX == NSOrderedDescending)
+    {
+        return findX(columns, xToFind, startSearch, midIndex - 1);
+    }
+    else if (comparisonOfRangeToX == NSOrderedSame)
+    {
+        return midIndex;
+    }
+    else
+    {
+        return findX(columns, xToFind, midIndex + 1, endSearch);
+    }
+}
+
+static inline NSUInteger findY(NSArray *regions, CGFloat yToFind, NSUInteger startSearch, NSUInteger endSearch)
+{
+    if (startSearch >= endSearch)
+    {
+        NSUInteger result = NSNotFound;
+        if ([regions[endSearch] compareToY:yToFind] == NSOrderedSame)
+            result = endSearch;
+        return result;
+    }
+    
+    NSUInteger midIndex = (startSearch + endSearch)/2;
+    NSComparisonResult comparisonOfRangeToX = [regions[midIndex] compareToY:yToFind];
+    if (comparisonOfRangeToX == NSOrderedDescending)
+    {
+        return findY(regions, yToFind, startSearch, midIndex - 1);
+    }
+    else if (comparisonOfRangeToX == NSOrderedSame)
+    {
+        return midIndex;
+    }
+    else
+    {
+        return findY(regions, yToFind, midIndex + 1, endSearch);
+    }
+}
+
+static inline NSIndexPath *search(NSArray *pattern, CGPoint pointToFind)
+{
+    NSUInteger columnIndex = findX(pattern, pointToFind.x, 0, pattern.count - 1);
+    NSCAssert(columnIndex != NSNotFound, @"Couldn't find the column containing point: (%f, %f)", pointToFind.x, pointToFind.y);
+    NSUInteger rowIndex = findY(pattern[columnIndex], pointToFind.y, 0, [pattern[columnIndex] count] - 1);
+    NSCAssert(rowIndex != NSNotFound, @"Couldn't find the row containing point: (%f, %f)", pointToFind.x, pointToFind.y);
+    return [NSIndexPath indexPathForRow:rowIndex inSection:columnIndex];
+}
+
 - (void)layoutTilesInContainer:(UIView *)tilesContainer visibleFrame:(CGRect)visibleFrame
 {
-    NSLog(@"(%f, %f, %f, %f)", visibleFrame.origin.x, visibleFrame.origin.y, visibleFrame.size.width, visibleFrame.size.height);
+    CGPoint origin = CGPointMake(
+                                 visibleFrame.origin.x - floor(visibleFrame.origin.x/PATTERN_DIMENSION)*PATTERN_DIMENSION,
+                                 visibleFrame.origin.y - floor(visibleFrame.origin.y/PATTERN_DIMENSION)*PATTERN_DIMENSION
+                                 );
+    NSLog(@"(%f, %f)", origin.x, origin.y);
+    NSIndexPath *startRegionIndexPath = search(self.pattern, origin);
+    NSLog(@"%@", startRegionIndexPath);
 }
 
 @end

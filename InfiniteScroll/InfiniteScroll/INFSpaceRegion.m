@@ -25,6 +25,42 @@
     return self;
 }
 
+- (NSComparisonResult)compareToX:(CGFloat)x
+{
+    NSComparisonResult result = NSOrderedSame;
+    if (self.rect.origin.x > x)
+    {
+        result = NSOrderedDescending;
+    }
+    else if (self.rect.origin.x <= x && self.rect.origin.x + self.rect.size.width > x)
+    {
+        result = NSOrderedSame;
+    }
+    else
+    {
+        result = NSOrderedAscending;
+    }
+    return result;
+}
+
+- (NSComparisonResult)compareToY:(CGFloat)y
+{
+    NSComparisonResult result = NSOrderedSame;
+    if (self.rect.origin.y > y)
+    {
+        result = NSOrderedDescending;
+    }
+    else if (self.rect.origin.y <= y && self.rect.origin.y + self.rect.size.height > y)
+    {
+        result = NSOrderedSame;
+    }
+    else
+    {
+        result = NSOrderedAscending;
+    }
+    return result;
+}
+
 - (NSString *)description
 {
     NSString *result = nil;
