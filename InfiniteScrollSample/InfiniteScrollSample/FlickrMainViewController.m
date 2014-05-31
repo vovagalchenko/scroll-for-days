@@ -9,8 +9,9 @@
 #import "FlickrMainViewController.h"
 #import "FlickrAppDelegate.h"
 #import "FlickrPhoto.h"
-#import <InfiniteScroll/INFScrollView.h>
 #import <InfiniteScroll/INFNetworkImageScrollViewTile.h>
+#import <InfiniteScroll/INFRandomLayout.h>
+#import <InfiniteScroll/INFUniformSizeLayout.h>
 
 #define SEARCH_BAR_ANIMATION_DURATION       .2
 #define INITIAL_FLICKR_SEARCH_TERM          @"nature"
@@ -54,6 +55,13 @@
 }
 
 #pragma mark - INFScrollViewDelegate
+
+- (id<INFLayout>)layoutForInfiniteScrollView:(INFScrollView *)infiniteScrollView
+{
+    // Uncomment this for randomly sized tiles
+    // return [INFRandomLayout layout];
+    return [[INFUniformSizeLayout alloc] initWithTileSize:CGSizeMake(187, 187)];
+}
 
 - (void)infiniteScrollView:(INFScrollView *)infiniteScrollView willUseInfiniteScrollViewTitle:(INFScrollViewTile *)tile atPositionHash:(NSInteger)positionHash
 {

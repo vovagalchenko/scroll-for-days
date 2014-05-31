@@ -8,11 +8,9 @@
 
 #import "INFScrollView.h"
 #import "INFScrollViewTile.h"
+#import "INFLayout.h"
 #import <QuartzCore/QuartzCore.h>
-#import <objc/runtime.h>
      
-#define MIN_DIMENSION                   100
-#define MAX_DIMENSION                   MIN_DIMENSION*2 + 200
 #define FADE_ANIMATION_DURATION         .4
 
 const unsigned short INFScrollHorizontally = 1;
@@ -22,13 +20,12 @@ const unsigned short INFScrollVertically = 1 << 1;
 
 @property (nonatomic, readwrite, strong) UIView *tileContainer;
 @property (nonatomic, readwrite, strong) NSMutableSet *visibleTiles;
-@property (nonatomic, readwrite, assign) CGSize tileAreaSize;
 
 @end
 
 @implementation INFScrollView
 
-#pragma mark - View Lifecycle
+#pragma mark - Initializers
 
 - (id)init
 {
@@ -74,6 +71,8 @@ const unsigned short INFScrollVertically = 1 << 1;
     tapGestureRecognizer.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:tapGestureRecognizer];
 }
+
+#pragma - View Lifecycle
 
 - (void)didMoveToWindow
 {
@@ -169,8 +168,8 @@ const unsigned short INFScrollVertically = 1 << 1;
     CGFloat maximumVisibleX = CGRectGetMaxX(visibleBounds);
     CGFloat minimumVisibleY = CGRectGetMinY(visibleBounds);
     CGFloat maximumVisibleY = CGRectGetMaxY(visibleBounds);
-    CGFloat tileAreaWidth = self.tileAreaSize.width;
-    CGFloat tileAreaHeight = self.tileAreaSize.height;
+    CGFloat tileAreaWidth = self.tileContainer.bounds.size.width;
+    CGFloat tileAreaHeight = self.tileContainer.bounds.size.height;
     for (INFScrollViewTile *subview in self.tileContainer.subviews)
     {
         CGRect tileFrame = subview.frame;
@@ -309,7 +308,8 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
 
 - (INFScrollViewTile *)tileWithFrame:(CGRect)frame
 {
-    NSAssert([self.infiniteScrollViewDelegate respondsToSelector:@selector(infiniteScrollViewTileForInfiniteScrollView:)], @"Must have infiniteScrollViewDelegate to have an operational infiniteScrollView");
+    NSAssert([self.infiniteScrollViewDelegate respondsToSelector:@selector(infiniteScrollViewTileForInfiniteScrollView:)],
+             @"Must have infiniteScrollViewDelegate to have an operational infiniteScrollView");
     INFScrollViewTile *tile = [self.infiniteScrollViewDelegate infiniteScrollViewTileForInfiniteScrollView:self];
     tile.frame = frame;
     return tile;
@@ -317,71 +317,11 @@ static inline NSInteger positionHashForTile(INFScrollViewTile *tile)
 
 - (void)doInitialTileSetup
 {
-    CGFloat maxDimension = MAX(self.bounds.size.width, self.bounds.size.height);
-    self.tileAreaSize = CGSizeMake(maxDimension*2, maxDimension*2);
-    self.tileContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tileAreaSize.width, self.tileAreaSize.height)];
-    [self addSubview:_tileContainer];
-    INFScrollViewTile *initialView = [self tileWithFrame:CGRectMake(0, 0, self.tileAreaSize.width, self.tileAreaSize.height)];
-    [self.tileContainer addSubview:initialView];
-    NSMutableArray *tilesToSplit = [NSMutableArray arrayWithObject:initialView];
-    int numVertSplits = 0, numHorizSplits = 0;
-    srand((unsigned int) time(NULL));
-    while (tilesToSplit.count > 0)
-    {
-        int randomInt = rand();
-        INFScrollViewTile *tileToSplit = [tilesToSplit objectAtIndex:randomInt%tilesToSplit.count];
-        BOOL splitVertical = NO;
-        if (tileToSplit.bounds.size.width > MIN_DIMENSION*2 && tileToSplit.bounds.size.height > MIN_DIMENSION*2)
-        {
-            splitVertical = (randomInt%2);
-        }
-        else if (tileToSplit.bounds.size.width > MIN_DIMENSION*2)
-        {
-            splitVertical = NO;
-        }
-        else if (tileToSplit.bounds.size.height > MIN_DIMENSION*2)
-        {
-            splitVertical = YES;
-        }
-        else
-        {
-            NSAssert(NO, @"A view was deemed as a view to split, when in fact it shouldn't have been: %@", tileToSplit);
-        }
-        CGRect newRect = CGRectNull;
-        if (splitVertical)
-        {
-            // split vertical
-            CGFloat newSplittingViewHeight = MIN_DIMENSION + randomInt%((int)tileToSplit.bounds.size.height - 2*MIN_DIMENSION);
-            CGFloat newViewHeight = tileToSplit.bounds.size.height - newSplittingViewHeight;
-            tileToSplit.frame = CGRectMake(tileToSplit.frame.origin.x, tileToSplit.frame.origin.y,
-                                           tileToSplit.frame.size.width, newSplittingViewHeight);
-            newRect = CGRectMake(tileToSplit.frame.origin.x, tileToSplit.frame.origin.y + newSplittingViewHeight,
-                                 tileToSplit.frame.size.width, newViewHeight);
-            numVertSplits++;
-        }
-        else
-        {
-            // split horizontal
-            CGFloat newSplittingViewWidth = MIN_DIMENSION + randomInt%((int)tileToSplit.bounds.size.width - 2*MIN_DIMENSION);
-            CGFloat newViewWidth = tileToSplit.bounds.size.width - newSplittingViewWidth;
-            tileToSplit.frame = CGRectMake(tileToSplit.frame.origin.x, tileToSplit.frame.origin.y,
-                                           newSplittingViewWidth, tileToSplit.frame.size.height);
-            newRect = CGRectMake(tileToSplit.frame.origin.x + newSplittingViewWidth, tileToSplit.frame.origin.y,
-                                 newViewWidth, tileToSplit.frame.size.height);
-            numHorizSplits++;
-        }
-        if (tileToSplit.bounds.size.height <= MAX_DIMENSION && tileToSplit.bounds.size.width <= MAX_DIMENSION)
-        {
-            [tilesToSplit removeObject:tileToSplit];
-        }
-        INFScrollViewTile *tileToAdd = [self tileWithFrame:newRect];
-        if (tileToAdd.bounds.size.width > MAX_DIMENSION || tileToAdd.bounds.size.height > MAX_DIMENSION)
-        {
-            [tilesToSplit addObject:tileToAdd];
-        }
-        [self.tileContainer addSubview:tileToAdd];
-    }
-    self.contentOffset = CGPointMake((self.tileAreaSize.width - self.bounds.size.width)/2, (self.tileAreaSize.height - self.bounds.size.height)/2);
+    id<INFLayout> layout = [self.infiniteScrollViewDelegate layoutForInfiniteScrollView:self];
+    self.tileContainer = [layout tileContainerUsingTileProvider:self
+                                          forInfiniteScrollView:self];
+    [self addSubview:self.tileContainer];
+    self.contentOffset = CGPointMake((self.tileContainer.bounds.size.width - self.bounds.size.width)/2, (self.tileContainer.bounds.size.height - self.bounds.size.height)/2);
 }
 
 - (void)addTile:(INFScrollViewTile *)tile

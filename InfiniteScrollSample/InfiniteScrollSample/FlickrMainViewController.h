@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <InfiniteScroll/INFScrollView.h>
 
 @class INFScrollView;
 
-@interface FlickrMainViewController : UIViewController
+@interface FlickrMainViewController : UIViewController <INFScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *searchButton;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
