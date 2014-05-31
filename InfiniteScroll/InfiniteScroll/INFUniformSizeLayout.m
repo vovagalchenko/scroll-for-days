@@ -31,7 +31,7 @@
                      forInfiniteScrollView:(INFScrollView *)scrollView
 {
     CGFloat maxDimension = MAX(scrollView.bounds.size.width, scrollView.bounds.size.height);
-    CGSize desiredTileAreaSize = CGSizeMake(maxDimension*2, maxDimension*2);
+    CGSize desiredTileAreaSize = CGSizeMake(maxDimension, maxDimension);
     CGFloat maxX = 0;
     CGFloat maxY = 0;
     UIView *container = [[UIView alloc] init];
