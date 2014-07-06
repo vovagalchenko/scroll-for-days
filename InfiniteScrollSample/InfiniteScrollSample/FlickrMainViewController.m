@@ -23,6 +23,8 @@
 @property (nonatomic, readwrite, strong) INFScrollViewTile *selectedTile;
 @property (nonatomic, readwrite, assign) CGRect selectedTileOriginalFrame;
 @property (nonatomic, readwrite, strong) NSArray *images;
+@property (nonatomic, readwrite, strong) NSArray *layouts;
+@property (nonatomic, readwrite, strong) id<INFLayout> currentLayout;
 
 @end
 
@@ -38,6 +40,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.layouts = @[[[INFUniformSizeLayout alloc] initWithTileSize:CGSizeMake(187, 187)], [INFRandomLayout layout]];
+    self.currentLayout = self.layouts[0];
     
     UIImage *buttonBG = [[UIImage imageNamed:@"whiteButton"] resizableImageWithCapInsets:UIEdgeInsetsMake(13, 7, 9, 7)];
     [self.searchButton setBackgroundImage:buttonBG forState:UIControlStateNormal];
@@ -58,9 +63,8 @@
 
 - (id<INFLayout>)layoutForInfiniteScrollView:(INFScrollView *)infiniteScrollView
 {
-    // Uncomment this for randomly sized tiles
-    // return [INFRandomLayout layout];
-    return [[INFUniformSizeLayout alloc] initWithTileSize:CGSizeMake(187, 187)];
+    NSAssert(self.currentLayout != nil, @"Some layout must be selected.");
+    return self.currentLayout;
 }
 
 - (void)infiniteScrollView:(INFScrollView *)infiniteScrollView willUseInfiniteScrollViewTitle:(INFScrollViewTile *)tile atPositionHash:(NSInteger)positionHash
@@ -161,9 +165,15 @@ static inline CGSize sizeToFitInsideSize(CGSize sizeToScale, CGSize sizeToFitTo)
 
 #pragma mark - Search
 
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    NSAssert(selectedScope <= self.layouts.count, @"Invalid layout index selected.");
+    self.currentLayout = self.layouts[selectedScope];
+    [self.infiniteScrollView reloadData:YES];
+}
+
 - (IBAction)searchButtonPressed:(id)sender
 {
- //   [self dismissSelectedTile];
     [self.searchBar becomeFirstResponder];
     [UIView animateWithDuration:SEARCH_BAR_ANIMATION_DURATION
                      animations:^
@@ -201,7 +211,7 @@ static inline CGSize sizeToFitInsideSize(CGSize sizeToScale, CGSize sizeToFitTo)
     {
         [fileManager removeItemAtPath:[[FlickrPhoto hddImageCacheDirectory] stringByAppendingPathComponent:filePath] error:nil];
     }
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=%@&format=json&tags=%@&per_page=1000", kFlickrAPIKey, [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=%@&format=json&tags=%@&per_page=1000", kFlickrAPIKey, [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]]];
     [AppDelegate startActivityIndicatorWithStatus:@"Searching Flickr"];
     [NSURLConnection sendAsynchronousRequest:urlRequest
                                        queue:[[NSOperationQueue alloc] init]
